@@ -15,7 +15,7 @@ export const metadata = {
   },
   description: siteConfig.description,
   applicationName: 'Viza Automotores',
-  icons: { icon: '/icon.ico', shortcut: '/icon.ico' },
+  icons: { icon: '/icon.ico', shortcut: '/icon.ico', apple: '/apple-touch-icon.png' },
   openGraph: {
     type: 'website',
     locale: 'es_AR',

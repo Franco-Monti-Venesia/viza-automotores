@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { siteConfig } from '@/data/site';
+import HeroEmblem from './hero-emblem';
 
 export default function Hero() {
   return (
@@ -23,10 +24,7 @@ export default function Hero() {
           </a>
         </div>
         <div className="hero-note"><span className="hero-note-line" /> <span>Tu próximo vehículo empieza acá</span></div>
-        <div className="hero-emblem" aria-hidden="true">
-          <div className="hero-emblem-disc"><img src={siteConfig.logoPath} alt="" /></div>
-          <span className="hero-emblem-orbit" />
-        </div>
+        <HeroEmblem />
       </div>
       <form className="hero-search container" action="/vehiculos">
         <div className="search-intro"><small>ENCONTRÁ TU PRÓXIMO VEHÍCULO</small><strong>¿Qué estás buscando?</strong></div>

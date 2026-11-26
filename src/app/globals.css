@@ -800,19 +800,34 @@ html { scrollbar-color: #c6c9ce #f1f2f3; scrollbar-width: thin; }
 .page-wrap { padding-top: 116px; }
 .vehicle-detail-page { padding-top: 112px; }
 
-/* Subtle 3D brand emblem in the hero */
-.hero-emblem { position: absolute; top: 50%; right: clamp(24px, 6vw, 88px); width: clamp(170px, 19vw, 250px); aspect-ratio: 1; display: grid; place-items: center; perspective: 1000px; transform: translateY(-55%); pointer-events: none; }
-.hero-emblem-disc { position: relative; z-index: 1; width: 82%; height: 82%; padding: 10px; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; background: linear-gradient(145deg,#fff,#e9eaec); box-shadow: 0 25px 70px rgba(0,0,0,.28), inset 0 2px 8px rgba(255,255,255,.9); transform-style: preserve-3d; animation: viza-emblem-float 7s ease-in-out infinite; }
-.hero-emblem-disc::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(214,45,60,.14); border-radius: 50%; transform: translateZ(9px); }
-.hero-emblem-disc img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: contain; transform: translateZ(13px); }
-.hero-emblem-orbit { position: absolute; inset: 1%; border: 1px solid rgba(255,255,255,.38); border-radius: 50%; transform: rotateX(66deg) rotateZ(-18deg); box-shadow: 0 0 32px rgba(255,255,255,.1); }
-@keyframes viza-emblem-float { 0%,100% { transform: rotateY(-12deg) rotateX(7deg) translateY(0); } 50% { transform: rotateY(12deg) rotateX(-4deg) translateY(-11px); } }
-@media (max-width: 950px) { .hero-emblem { width: 155px; right: 23px; top: 39%; opacity: .82; } .hero-copy { max-width: 610px; } }
+/* Interactive 3D Viza emblem: diagonal idle drift + pointer dragging */
+.hero-emblem { position: absolute; z-index: 4; top: 48%; right: clamp(18px, 5vw, 82px); width: clamp(230px, 25vw, 310px); aspect-ratio: 1; display: grid; place-items: center; perspective: 1100px; transform: translateY(-52%); pointer-events: none; }
+.hero-emblem-interactive { --drag-x: 0px; --drag-y: 0px; --tilt-x: 0deg; --tilt-y: 0deg; position: relative; display: grid; place-items: center; width: 100%; height: 100%; padding: 0; border: 0; outline-offset: 8px; border-radius: 50%; background: transparent; cursor: grab; pointer-events: auto; touch-action: none; transform-style: preserve-3d; animation: viza-emblem-drift 8s ease-in-out infinite alternate; }
+.hero-emblem-interactive:focus-visible { outline: 2px solid rgba(255,255,255,.85); }
+.hero-emblem-dragging .hero-emblem-interactive { cursor: grabbing; animation-play-state: paused; }
+.hero-emblem-disc { position: relative; z-index: 1; display: grid; place-items: center; width: 86%; height: 86%; padding: 7px; border: 1px solid rgba(255,255,255,.82); border-radius: 50%; background: linear-gradient(145deg,#fff,#e9eaec); box-shadow: 0 25px 70px rgba(0,0,0,.31), inset 0 2px 8px rgba(255,255,255,.95); transform-style: preserve-3d; }
+.hero-emblem-disc::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(214,45,60,.14); border-radius: 50%; transform: translateZ(9px); pointer-events: none; }
+.hero-emblem-disc img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: contain; transform: translateZ(13px); user-select: none; -webkit-user-drag: none; }
+.hero-emblem-orbit { position: absolute; inset: 1%; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; transform: rotateX(66deg) rotateZ(-18deg); box-shadow: 0 0 32px rgba(255,255,255,.1); pointer-events: none; }
+@keyframes viza-emblem-drift {
+  0% { transform: translate3d(calc(var(--drag-x) - 10px), calc(var(--drag-y) - 9px), 0) rotateX(calc(var(--tilt-x) + 7deg)) rotateY(calc(var(--tilt-y) - 11deg)); }
+  100% { transform: translate3d(calc(var(--drag-x) + 10px), calc(var(--drag-y) + 10px), 0) rotateX(calc(var(--tilt-x) - 7deg)) rotateY(calc(var(--tilt-y) + 11deg)); }
+}
+@media (max-width: 950px) { .hero-emblem { width: 190px; right: 12px; top: 39%; opacity: .82; } .hero-copy { max-width: 610px; } }
 @media (max-width: 760px) { .page-wrap { padding-top: 100px; } .vehicle-detail-page { padding-top: 100px; } .hero-emblem { display: none; } }
 
 .status-danger { background: #fde8ea; color: #b52231; }
 .reviews-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 17px; margin-top: 25px; }
 .reviews-copy .button { margin-top: 0; }
 .reviews-write-link { color: var(--red); font-size: 12px; font-weight: 800; }
-@media (max-width: 900px) { .hero-emblem { width: 128px; right: 8px; opacity: .58; } .hero-copy { max-width: 555px; } }
+@media (max-width: 900px) { .hero-emblem { width: 170px; right: 7px; opacity: .72; } .hero-copy { max-width: 555px; } }
 @media (max-width: 760px) { .hero-emblem { display: none; } }
+
+
+/* Fine visual polish requested after reviewing the first update */
+.vehicle-card-arrows button { width: 32px; height: 32px; border-color: rgba(255,255,255,.9); box-shadow: 0 3px 12px rgba(13,17,23,.16); }
+.vehicle-card-arrows .chevron-icon { width: 14px; height: 14px; }
+.how-step-image img { width: auto; height: auto; max-width: min(76%, 150px); max-height: 72%; padding: 0; object-fit: contain; }
+@media (max-width: 760px) {
+  .how-step-image img { max-width: 76%; max-height: 72%; padding: 0; }
+}
