@@ -1,8 +1,8 @@
 # Seguridad — próximos pasos antes de producción
 
-El frontend de esta entrega es una demo. El panel `/administracion` no está protegido: cualquier persona que conozca la URL podría abrirlo. Los cambios y formularios se guardan en el navegador local.
+El frontend de esta entrega es una demo. El panel `/administracion` tiene ahora una pantalla de contraseña temporal (`1234`) únicamente para evitar aperturas casuales durante la demostración. La validación está en el navegador y la clave forma parte del código cliente: cualquier persona técnica puede omitirla. No es autenticación y no protege datos. Los cambios y formularios se guardan en el navegador local.
 
-Antes de publicar el panel real, implementar y probar:
+Antes de publicar el panel real, eliminar este bloqueo temporal e implementar y probar:
 
 1. Supabase Auth con sesiones seguras en cookies usando `@supabase/ssr` para Next.js App Router.
 2. Verificación de usuario y rol del lado servidor en cada ruta/operación administrativa.

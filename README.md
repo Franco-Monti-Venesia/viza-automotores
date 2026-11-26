@@ -40,7 +40,7 @@ Carpeta: `public/images/brand/`
 
 El ZIP incluye un recorte provisional de la foto de fachada tomada de la captura de Instagram. No es el original de alta resolución. Reemplazalo por tu archivo original, conservando exactamente el nombre `viza automotores fachada.jpg`. El recorte incluido es una composición panorámica provisional de la fotografía de la captura para poder mostrar el diseño del hero; la foto original vertical o cuadrada puede necesitar un ajuste de encuadre en CSS.
 
-El logo no está incluido: copiá tu PNG original dentro de esa carpeta con el nombre exacto `logo viza automotores.png`. Mientras tanto, el sitio muestra un logotipo tipográfico de respaldo.
+El ZIP incluye un recorte provisional del logo circular visible en el perfil de Instagram, para que la navegación, el administrador y el favicon ya tengan la identidad de Viza. Reemplazalo por el logo original en alta calidad conservando el nombre `logo viza automotores.png`. El favicon `src/app/icon.ico` también se generó con ese recorte; si reemplazás el logo por un archivo diferente, reemplazá además ese favicon.
 
 ### Vehículos
 
@@ -70,7 +70,7 @@ public/
 
 La primera imagen (`01.jpg`) se utiliza como foto principal del vehículo. Las restantes se muestran como miniaturas en la ficha.
 
-Si todavía no agregaste una fotografía, el sitio muestra un placeholder para que no aparezcan imágenes rotas.
+En las tarjetas, si no existe la primera foto se muestra un marcador de respaldo. En las fichas individuales, la galería detecta las imágenes disponibles y solo muestra las que realmente existen; no quedan espacios vacíos para las fotos pendientes.
 
 ### Cambiar extensiones
 
@@ -101,13 +101,19 @@ La ruta `/administracion` muestra una maqueta funcional de administración local
 - Actualización de estado de consultas y tasaciones.
 - Configuración visual de demostración.
 
-**Importante:** esta versión usa `localStorage` para que puedas probar interacciones en un mismo navegador. No tiene autenticación, base de datos compartida ni permisos reales. No debe publicarse como administrador de producción. La conexión con Supabase, autenticación y RLS forma parte de la siguiente etapa.
+**Importante:** esta versión usa `localStorage` para que puedas probar interacciones en un mismo navegador. La ruta `/administracion` pide la contraseña temporal `1234`, pero esa comprobación está hecha en el frontend y la clave es visible en el código: sirve únicamente como bloqueo visual de demostración, no como autenticación ni como protección real. No publiques este administrador como panel de producción. La conexión con Supabase Auth, permisos de servidor y RLS forma parte de la siguiente etapa.
 
 Los formularios de contacto y tasación muestran confirmación luego de guardar en el almacenamiento local. Las fotografías seleccionadas en el formulario de tasación solo guardan sus nombres durante la demo; la carga real se implementará con Supabase Storage.
 
 ## WhatsApp, teléfono y datos del negocio
 
 Revisá `src/data/site.js` antes de publicar. El número se tomó del enlace de WhatsApp visible en la captura de Instagram, pero hay que confirmarlo con la agencia. También se deben verificar dirección, horarios, servicios, financiación, garantías y demás condiciones comerciales.
+
+## Secciones nuevas de la portada
+
+La página principal incluye pasos de compra, una banda animada de marcas de referencia, ubicación con mapa de Google, un bloque para acceder a opiniones y los horarios de atención. Los horarios actuales (10:00 a 19:00) son provisionales y deben confirmarse con la agencia. Los nombres de marcas son ejemplos de marcas que se pueden encontrar en el mercado, no una afirmación de acuerdos comerciales. Las imágenes de los cuatro pasos usan las direcciones de imagen que compartiste; si el sitio de origen cambia sus archivos o bloquea la carga externa, reemplazalas por imágenes propias dentro de `public/images/steps/`.
+
+El bloque de Google muestra estrellas como recurso visual y enlaza a una búsqueda de Viza en Maps. No se publicó una puntuación numérica ni reseñas de ejemplo porque todavía no se verificó el perfil exacto ni se recibieron reseñas reales. Para abrir directamente el formulario de reseñas, más adelante hará falta el enlace de reseña o Place ID del Perfil de Negocio de Google.
 
 ## SEO y publicación
 
@@ -134,3 +140,7 @@ git commit -m "Incorpora catálogo y fichas de vehículos"
 ```
 
 No subas `.env.local`, contraseñas ni claves privadas al repositorio.
+
+## Actualización 01
+
+Consultá `ACTUALIZACION-01.md` para ver los cambios visuales y funcionales incorporados en esta entrega. Los enlaces de Google Maps y reseñas, la contraseña temporal `1234` y los horarios deben verificarse antes de publicar el sitio. La calificación visual de cinco estrellas no implica que se muestre una puntuación numérica confirmada.

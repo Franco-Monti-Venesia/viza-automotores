@@ -6,10 +6,10 @@ No cambies los nombres de los archivos que espera el código. Reemplazá el arch
 
 Ruta: `public/images/brand/`
 
-- `logo viza automotores.png` — copiá aquí el logo original de Viza en PNG.
+- `logo viza automotores.png` — incluye un recorte provisional del logo circular del perfil de Instagram. Reemplazalo por el logo original en PNG conservando exactamente el nombre.
 - `viza automotores fachada.jpg` — el ZIP incluye una composición panorámica provisoria hecha a partir de la foto visible en la captura de Instagram. Reemplazala por tu original de mejor calidad con el mismo nombre.
 
-El sitio ya apunta a esas dos rutas. No hace falta editar código para reemplazarlas.
+El sitio ya apunta a esas rutas. No hace falta editar código para reemplazarlas. Si reemplazás el logo, reemplazá también `src/app/icon.ico` para que el favicon del navegador use la versión original.
 
 ## 2. Fiat Cronos Drive 1.3 (2021)
 

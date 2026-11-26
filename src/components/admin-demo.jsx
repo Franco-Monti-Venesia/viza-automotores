@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { initialVehicles } from '@/data/vehicles';
+import { siteConfig } from '@/data/site';
 import { STORAGE_KEYS, readStoredList, writeStored } from '@/lib/demo-storage';
 
 const tabs = [
@@ -18,6 +19,9 @@ function makeSlug(value) {
 }
 
 export default function AdminDemo() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [tab, setTab] = useState('resumen');
   const [vehicles, setVehicles] = useState(initialVehicles);
   const [inquiries, setInquiries] = useState([]);
@@ -46,7 +50,7 @@ export default function AdminDemo() {
     if (!form.brand.trim() || !form.model.trim() || !form.year) return;
     const id = editing === 'new' ? `viza-${Date.now()}` : form.id;
     const slug = form.slug?.trim() || makeSlug(title + ' ' + form.year);
-    const nextVehicle = { ...form, id, slug, title, year: Number(form.year), kilometers: form.kilometers === '' ? null : Number(form.kilometers), highlights: Array.isArray(form.highlights) ? form.highlights : String(form.highlights || '').split('\n').map((x) => x.trim()).filter(Boolean) };
+    const nextVehicle = { ...form, id, slug, title, year: Number(form.year), kilometers: form.kilometers === '' ? null : Number(form.kilometers), highlights: (Array.isArray(form.highlights) ? form.highlights : String(form.highlights || '').split('\n')).map((x) => String(x).trim()).filter(Boolean) };
     const next = editing === 'new' ? [nextVehicle, ...vehicles] : vehicles.map((v) => v.id === id ? nextVehicle : v);
     persistVehicles(next); setEditing(null); notify('Vehículo guardado en esta demostración.');
   }
@@ -62,10 +66,38 @@ export default function AdminDemo() {
     event.preventDefault(); writeStored(STORAGE_KEYS.settings, settings); notify('Configuración demo guardada en este navegador.');
   }
 
+  function handleLogin(event) {
+    event.preventDefault();
+    if (password === '1234') {
+      setAuthenticated(true);
+      setLoginError('');
+      return;
+    }
+    setLoginError('La contraseña ingresada no es correcta.');
+  }
+
+  if (!authenticated) {
+    return (
+      <div className="admin-login-screen">
+        <form className="admin-login-card" onSubmit={handleLogin}>
+          <img className="admin-login-logo" src={siteConfig.logoPath} alt="Logo de Viza Automotores" onError={(event) => { event.currentTarget.style.display = 'none'; }} />
+          <span className="admin-login-eyebrow">ÁREA PRIVADA</span>
+          <h1>Administración</h1>
+          <p>Ingresá la contraseña para acceder al panel de Viza Automotores.</p>
+          <label className="field admin-login-field"><span>Contraseña</span><input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Ingresá tu contraseña" required /></label>
+          {loginError && <p className="admin-login-error" role="alert">{loginError}</p>}
+          <button className="button button-primary button-wide" type="submit">Ingresar al panel <span>↗</span></button>
+          <small className="admin-login-demo-note">Contraseña temporal de demostración: <strong>1234</strong></small>
+          <a className="admin-login-back" href="/">← Volver al sitio</a>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
-        <a href="/" className="admin-brand"><span className="admin-brand-mark">V</span><span><strong>VIZA</strong><small>ADMINISTRACIÓN</small></span></a>
+        <a href="/" className="admin-brand"><img className="admin-logo-image" src={siteConfig.logoPath} alt="Logo de Viza Automotores" onError={(event) => { event.currentTarget.style.display = 'none'; }} /><span><strong>ADMINISTRACIÓN</strong><small>VIZA AUTOMOTORES</small></span></a>
         <div className="admin-nav-label">GESTIÓN</div>
         {tabs.map(([id, label]) => <button key={id} type="button" className={tab === id ? 'admin-nav-item active' : 'admin-nav-item'} onClick={() => { setTab(id); setEditing(null); }}><span>{({ resumen: '◫', vehiculos: '▤', consultas: '✉', tasaciones: '⌂', configuracion: '⚙' })[id]}</span>{label}</button>)}
         <div className="admin-sidebar-bottom"><a href="/" className="admin-nav-item">↗ Ver sitio web</a><span>Viza Automotores · Demo</span></div>
@@ -83,7 +115,7 @@ export default function AdminDemo() {
             <div className="admin-stat"><small>Solicitudes de tasación</small><strong>{appraisals.length}</strong><span>En este navegador</span></div>
           </div>
           <div className="admin-panel-card"><div className="admin-card-heading"><div><h2>Últimos vehículos</h2><p>Un vistazo al inventario actual</p></div><button className="button button-primary button-small" onClick={() => { setTab('vehiculos'); openNew(); }}>+ Cargar vehículo</button></div>
-            <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Vehículo</th><th>Año</th><th>Estado</th><th>Precio</th><th></th></tr></thead><tbody>{vehicles.slice(0, 5).map((v) => <tr key={v.id}><td><strong>{v.title}</strong><small>{v.category} · {v.condition}</small></td><td>{v.year}</td><td><span className={`status-pill ${v.status === 'Disponible' ? 'status-ok' : v.status === 'Vendido' ? 'status-muted' : 'status-warn'}`}>{v.status}</span></td><td>Consultar</td><td><button className="text-action" onClick={() => { setTab('vehiculos'); openEdit(v); }}>Editar</button></td></tr>)}</tbody></table></div>
+            <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Vehículo</th><th>Año</th><th>Estado</th><th>Precio</th><th></th></tr></thead><tbody>{vehicles.slice(0, 5).map((v) => <tr key={v.id}><td><strong>{v.title}</strong><small>{v.category} · {v.condition}</small></td><td>{v.year}</td><td><span className={`status-pill ${v.status === 'Disponible' ? 'status-ok' : v.status === 'Vendido' ? 'status-danger' : 'status-warn'}`}>{v.status}</span></td><td>Consultar</td><td><button className="text-action" onClick={() => { setTab('vehiculos'); openEdit(v); }}>Editar</button></td></tr>)}</tbody></table></div>
           </div>
         </>}
 
@@ -106,11 +138,11 @@ export default function AdminDemo() {
               <label className="field"><span>Estado de publicación</span><select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}><option>Disponible</option><option>Reservado</option><option>Vendido</option><option>Borrador</option></select></label>
               <label className="field"><span>Carpeta de imágenes</span><input value={form.imageFolder || ''} onChange={(e) => setForm({ ...form, imageFolder: e.target.value })} placeholder="/images/vehiculos/nombre-carpeta" /></label>
               <label className="field field-full"><span>Descripción</span><textarea rows={3} value={form.shortDescription || ''} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} /></label>
-              <label className="field field-full"><span>Equipamiento y destacados (uno por línea)</span><textarea rows={5} value={(form.highlights || []).join('\n')} onChange={(e) => setForm({ ...form, highlights: e.target.value.split('\n') })} placeholder={'Ej. Techo solar\nButacas calefaccionadas\nCámara de estacionamiento'} /></label>
+              <label className="field field-full"><span>Equipamiento, destacados y observaciones (uno por línea)</span><textarea rows={5} value={(form.highlights || []).join('\n')} onChange={(e) => setForm({ ...form, highlights: e.target.value.split('\n') })} placeholder={'Ej. Techo solar\nButacas calefaccionadas\nCámara de estacionamiento'} /></label>
             </div>
             <label className="admin-check"><input type="checkbox" checked={Boolean(form.featured)} onChange={(e) => setForm({ ...form, featured: e.target.checked })} /> Mostrar como vehículo destacado en el inicio</label>
             <button className="button button-primary" type="submit">Guardar vehículo</button>
-          </form> : <div className="admin-vehicle-list">{vehicles.map((v) => <div className="admin-vehicle-row" key={v.id}><div className="admin-vehicle-symbol">{v.category === 'Moto' ? 'M' : 'V'}</div><div className="admin-vehicle-name"><strong>{v.title}</strong><small>{v.year} · {v.category} · {v.condition}</small></div><span className={`status-pill ${v.status === 'Disponible' ? 'status-ok' : v.status === 'Vendido' ? 'status-muted' : 'status-warn'}`}>{v.status}</span><button className="text-action" onClick={() => openEdit(v)}>Editar</button><button className="text-action danger-action" onClick={() => deleteVehicle(v)}>Eliminar</button></div>)}</div>}
+          </form> : <div className="admin-vehicle-list">{vehicles.map((v) => <div className="admin-vehicle-row" key={v.id}><div className="admin-vehicle-symbol">{v.category === 'Moto' ? 'M' : 'V'}</div><div className="admin-vehicle-name"><strong>{v.title}</strong><small>{v.year} · {v.category} · {v.condition}</small></div><span className={`status-pill ${v.status === 'Disponible' ? 'status-ok' : v.status === 'Vendido' ? 'status-danger' : 'status-warn'}`}>{v.status}</span><button className="text-action" onClick={() => openEdit(v)}>Editar</button><button className="text-action danger-action" onClick={() => deleteVehicle(v)}>Eliminar</button></div>)}</div>}
         </div>}
 
         {(tab === 'consultas' || tab === 'tasaciones') && <div className="admin-panel-card"><div className="admin-card-heading"><div><h2>{tab === 'consultas' ? 'Consultas de compradores' : 'Solicitudes de tasación'}</h2><p>Los envíos realizados desde los formularios de esta demo.</p></div><span className="admin-count">{tab === 'consultas' ? inquiries.length : appraisals.length} registros</span></div>

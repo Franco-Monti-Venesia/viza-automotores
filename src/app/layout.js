@@ -2,6 +2,7 @@ import './globals.css';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import WhatsappFloat from '@/components/whatsapp-float';
+import ScrollEffects from '@/components/scroll-effects';
 import { siteConfig } from '@/data/site';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -14,6 +15,7 @@ export const metadata = {
   },
   description: siteConfig.description,
   applicationName: 'Viza Automotores',
+  icons: { icon: '/icon.ico', shortcut: '/icon.ico' },
   openGraph: {
     type: 'website',
     locale: 'es_AR',
@@ -44,6 +46,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es-AR">
       <body>
+        <ScrollEffects />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness).replace(/</g, '\\u003c') }} />
         <SiteHeader />
         <main>{children}</main>
