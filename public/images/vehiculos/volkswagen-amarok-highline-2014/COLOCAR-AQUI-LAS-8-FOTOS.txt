@@ -1,0 +1,1 @@
+Colocá las fotografías del vehículo en esta carpeta, numeradas 01.jpg a 08.jpg. La foto 01.jpg será la principal.
