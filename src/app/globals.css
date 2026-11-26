@@ -831,3 +831,367 @@ html { scrollbar-color: #c6c9ce #f1f2f3; scrollbar-width: thin; }
 @media (max-width: 760px) {
   .how-step-image img { max-width: 76%; max-height: 72%; padding: 0; }
 }
+
+/* ---------------------------------------------------------
+   Viza polish: centered circular logo, anchored 3D emblem,
+   and fully branded dropdown controls.
+   --------------------------------------------------------- */
+
+/* Keep the logo and CTA optically balanced against the nav shell. */
+.header-inner.container {
+  padding-inline: 12px;
+  grid-template-columns: minmax(150px, 1fr) auto minmax(150px, 1fr);
+  align-items: center;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  align-self: stretch;
+}
+.brand-lockup {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  min-width: 54px;
+  height: 54px;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+.brand-image {
+  display: block;
+  width: 52px;
+  height: 52px;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(17, 22, 29, .10);
+}
+
+/* Let the hero search overlap the next section instead of being clipped. */
+.hero {
+  z-index: 2;
+  overflow: visible;
+}
+.hero-search {
+  z-index: 30;
+  bottom: -48px;
+  isolation: isolate;
+}
+.section-featured {
+  position: relative;
+  z-index: 1;
+  padding-top: 138px;
+}
+
+/* Custom select: branded popover instead of browser-native option menus. */
+.styled-select {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  font-family: var(--font-body);
+}
+.styled-select-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.styled-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 45px;
+  padding: 10px 12px;
+  border: 1px solid #dcdee2;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  font: 650 13px/1.35 var(--font-body);
+  box-shadow: 0 1px 2px rgba(20, 25, 32, .025);
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.styled-select-trigger:hover {
+  border-color: #c6c9cf;
+  background: #fcfcfd;
+}
+.styled-select-trigger:focus-visible,
+.styled-select-open .styled-select-trigger {
+  border-color: var(--red);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(214, 45, 60, .10);
+}
+.styled-select-trigger:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+.styled-select-placeholder { color: #858b95; font-weight: 500; }
+.styled-select-value { color: #292d34; }
+.styled-select-chevron {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  color: #777e88;
+  transition: transform .2s ease, color .2s ease;
+}
+.styled-select-open .styled-select-chevron {
+  color: var(--red);
+  transform: rotate(180deg);
+}
+.styled-select-menu {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  z-index: 160;
+  width: 100%;
+  min-width: 175px;
+  max-height: 260px;
+  padding: 6px;
+  overflow-y: auto;
+  border: 1px solid rgba(221, 224, 229, .95);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .98);
+  box-shadow: 0 16px 38px rgba(24, 29, 37, .16), 0 2px 7px rgba(24, 29, 37, .05);
+  backdrop-filter: blur(16px);
+  animation: select-menu-in .16s ease-out both;
+}
+.styled-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 37px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #484e58;
+  text-align: left;
+  font: 550 12px/1.35 var(--font-body);
+  transition: color .16s ease, background .16s ease;
+}
+.styled-select-option:hover,
+.styled-select-option:focus-visible {
+  outline: none;
+  background: #f6f1f2;
+  color: var(--red-dark);
+}
+.styled-select-option[aria-selected="true"] {
+  background: rgba(214, 45, 60, .09);
+  color: var(--red-dark);
+  font-weight: 750;
+}
+.styled-select-check { color: var(--red); font-size: 13px; font-weight: 800; }
+.styled-select-hero { width: 100%; }
+.styled-select-hero .styled-select-trigger {
+  min-height: 30px;
+  padding: 2px 20px 2px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font: 700 13px/1.3 var(--font-body);
+}
+.styled-select-hero .styled-select-trigger:focus-visible,
+.styled-select-hero.styled-select-open .styled-select-trigger {
+  border: 0;
+  box-shadow: none;
+  color: var(--red);
+}
+.styled-select-hero .styled-select-chevron { width: 15px; height: 15px; }
+.styled-select-hero .styled-select-menu { min-width: 190px; }
+.styled-select-field { width: 100%; }
+.styled-select-toolbar { width: auto; min-width: 155px; }
+.styled-select-toolbar .styled-select-trigger {
+  min-height: 36px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 11px;
+}
+.styled-select-compact { width: auto; min-width: 142px; }
+.styled-select-compact .styled-select-trigger {
+  min-height: 34px;
+  padding: 6px 9px;
+  border-radius: 7px;
+  font-size: 10px;
+}
+.catalog-sort-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 11px;
+}
+@keyframes select-menu-in {
+  from { opacity: 0; transform: translateY(-4px) scale(.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Logo is a circular badge everywhere, even when its source PNG is square. */
+.admin-login-logo,
+.admin-logo-image {
+  border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
+  background: #fff;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Fixed emblem position; pointer input changes only its 3D viewing angle. */
+.hero-emblem {
+  position: absolute;
+  z-index: 4;
+  top: 47%;
+  right: clamp(24px, 5.5vw, 90px);
+  width: clamp(270px, 29vw, 370px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  perspective: 1250px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.hero-emblem-hitarea {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  outline-offset: 7px;
+}
+.hero-emblem-hitarea:focus-visible { outline: 2px solid rgba(255,255,255,.9); }
+.hero-emblem-tracking .hero-emblem-hitarea { cursor: grabbing; }
+.hero-emblem-body {
+  position: absolute;
+  inset: 4%;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  animation: viza-emblem-idle 7s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.hero-emblem-tracking .hero-emblem-body {
+  animation: none;
+  transform: rotateX(var(--look-x)) rotateY(var(--look-y)) rotateZ(-2deg);
+  transition: transform .10s ease-out;
+}
+.hero-emblem-disc {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 86%;
+  height: 86%;
+  padding: 7px;
+  border: 6px solid var(--red);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 30px 72px rgba(0, 0, 0, .38),
+    0 9px 20px rgba(0, 0, 0, .19),
+    inset 0 3px 9px rgba(255, 255, 255, .98),
+    inset 0 -5px 13px rgba(29, 32, 37, .10);
+  transform: translateZ(24px);
+  transform-style: preserve-3d;
+}
+.hero-emblem-disc::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  z-index: 2;
+  border: 1px solid rgba(214, 45, 60, .24);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translateZ(13px);
+}
+.hero-emblem-disc img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
+  transform: translateZ(18px);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.hero-emblem-orbit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 2px solid rgba(214, 45, 60, .84);
+  border-radius: 50%;
+  box-shadow: 0 0 34px rgba(214, 45, 60, .24), inset 0 0 18px rgba(214, 45, 60, .12);
+  transform: rotateX(68deg) rotateZ(-18deg) translateZ(7px);
+  pointer-events: none;
+}
+.hero-emblem-glow {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .13);
+  filter: blur(25px);
+  transform: translateZ(-24px);
+  pointer-events: none;
+}
+@keyframes viza-emblem-idle {
+  0% { transform: rotateX(13deg) rotateY(-17deg) rotateZ(-3deg); }
+  50% { transform: rotateX(-8deg) rotateY(8deg) rotateZ(1deg); }
+  100% { transform: rotateX(15deg) rotateY(17deg) rotateZ(3deg); }
+}
+
+@media (max-width: 1050px) {
+  .header-inner.container {
+    grid-template-columns: minmax(130px, 1fr) auto minmax(130px, 1fr);
+    padding-inline: 12px;
+  }
+  .hero-emblem { width: clamp(225px, 25vw, 285px); right: 18px; }
+}
+@media (max-width: 760px) {
+  .header-inner.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding-inline: 13px;
+  }
+  .brand-lockup { width: 48px; min-width: 48px; height: 48px; }
+  .brand-image { width: 46px; height: 46px; }
+  .hero { overflow: visible; }
+  .hero-search { bottom: -77px; z-index: 30; }
+  .section-featured { padding-top: 145px; }
+  .styled-select-hero .styled-select-trigger { min-height: 39px; padding: 8px 28px 8px 9px; border: 1px solid #e4e6e9; border-radius: 7px; background-color: white; }
+  .hero-emblem { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-emblem-body { animation: none; }
+  .styled-select-menu { animation: none; }
+}

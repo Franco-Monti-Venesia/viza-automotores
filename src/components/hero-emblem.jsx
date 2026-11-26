@@ -6,70 +6,67 @@ import { siteConfig } from '@/data/site';
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 export default function HeroEmblem() {
-  const [dragging, setDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0, tiltX: 0, tiltY: 0 });
-  const dragStart = useRef(null);
+  const [tracking, setTracking] = useState(false);
+  const [look, setLook] = useState({ x: 10, y: -14 });
+  const activePointer = useRef(null);
 
-  function handlePointerDown(event) {
-    if (event.button !== undefined && event.button !== 0) return;
-    event.preventDefault();
-    event.currentTarget.setPointerCapture(event.pointerId);
-    dragStart.current = {
-      pointerId: event.pointerId,
-      pointerX: event.clientX,
-      pointerY: event.clientY,
-      originX: position.x,
-      originY: position.y,
-    };
-    setDragging(true);
-  }
+  function updateLook(event) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const horizontal = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+    const vertical = ((event.clientY - bounds.top) / bounds.height) * 2 - 1;
 
-  function handlePointerMove(event) {
-    const start = dragStart.current;
-    if (!start || start.pointerId !== event.pointerId) return;
-
-    const deltaX = event.clientX - start.pointerX;
-    const deltaY = event.clientY - start.pointerY;
-    setPosition({
-      x: clamp(start.originX + deltaX, -92, 92),
-      y: clamp(start.originY + deltaY, -72, 72),
-      tiltX: clamp(-deltaY * 0.12, -13, 13),
-      tiltY: clamp(deltaX * 0.14, -16, 16),
+    // The badge stays anchored. Only its 3D orientation follows the pointer.
+    setLook({
+      x: clamp(-vertical * 27, -29, 29),
+      y: clamp(horizontal * 32, -34, 34),
     });
   }
 
-  function finishDrag(event) {
-    if (dragStart.current && dragStart.current.pointerId === event.pointerId) {
-      dragStart.current = null;
-      setDragging(false);
-    }
+  function handlePointerDown(event) {
+    if (event.button !== undefined && event.button !== 0) return;
+    activePointer.current = event.pointerId;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setTracking(true);
+    updateLook(event);
+  }
+
+  function handlePointerMove(event) {
+    if (activePointer.current !== event.pointerId) return;
+    updateLook(event);
+  }
+
+  function finishInteraction(event) {
+    if (activePointer.current !== event.pointerId) return;
+    activePointer.current = null;
+    setTracking(false);
   }
 
   const style = {
-    '--drag-x': `${position.x}px`,
-    '--drag-y': `${position.y}px`,
-    '--tilt-x': `${position.tiltX}deg`,
-    '--tilt-y': `${position.tiltY}deg`,
+    '--look-x': `${look.x}deg`,
+    '--look-y': `${look.y}deg`,
   };
 
   return (
-    <div className={`hero-emblem${dragging ? ' hero-emblem-dragging' : ''}`}>
+    <div className={`hero-emblem${tracking ? ' hero-emblem-tracking' : ''}`}>
       <button
-        className="hero-emblem-interactive"
+        className="hero-emblem-hitarea"
         type="button"
         style={style}
-        aria-label="Mantené presionado y arrastrá el emblema de Viza Automotores"
-        title="Arrastrá el emblema con el mouse"
+        aria-label="Mantené presionado y mové el mouse para orientar el emblema de Viza Automotores"
+        title="Mantené presionado y mové el mouse para orientar el emblema"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
-        onPointerUp={finishDrag}
-        onPointerCancel={finishDrag}
-        onLostPointerCapture={finishDrag}
+        onPointerUp={finishInteraction}
+        onPointerCancel={finishInteraction}
+        onLostPointerCapture={finishInteraction}
       >
-        <span className="hero-emblem-disc">
-          <img src={siteConfig.logoPath} alt="" draggable="false" />
+        <span className="hero-emblem-body">
+          <span className="hero-emblem-disc">
+            <img src={siteConfig.logoPath} alt="" draggable="false" />
+          </span>
+          <span className="hero-emblem-orbit" />
+          <span className="hero-emblem-glow" />
         </span>
-        <span className="hero-emblem-orbit" />
       </button>
     </div>
   );

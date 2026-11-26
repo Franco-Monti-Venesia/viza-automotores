@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { siteConfig } from '@/data/site';
 import HeroEmblem from './hero-emblem';
+import StyledSelect from './styled-select';
 
 export default function Hero() {
   return (
@@ -28,9 +29,9 @@ export default function Hero() {
       </div>
       <form className="hero-search container" action="/vehiculos">
         <div className="search-intro"><small>ENCONTRÁ TU PRÓXIMO VEHÍCULO</small><strong>¿Qué estás buscando?</strong></div>
-        <label><span>Tipo</span><select name="tipo" defaultValue=""><option value="">Todos</option><option>Auto</option><option>Camioneta</option><option>Moto</option><option>Utilitario</option></select></label>
+        <label><span>Tipo</span><StyledSelect name="tipo" className="styled-select-hero" defaultValue="" placeholder="Todos" options={['Auto', 'Camioneta', 'Moto', 'Utilitario']} /></label>
         <label><span>Marca o modelo</span><input name="q" placeholder="Ej. Volkswagen, Fiat..." /></label>
-        <label><span>Condición</span><select name="condicion" defaultValue=""><option value="">Todas</option><option>Nuevo</option><option>Usado</option></select></label>
+        <label><span>Condición</span><StyledSelect name="condicion" className="styled-select-hero" defaultValue="" placeholder="Todas" options={['Nuevo', 'Usado']} /></label>
         <button className="button button-primary" type="submit">Buscar vehículos <span>→</span></button>
       </form>
     </section>

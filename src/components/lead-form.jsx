@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import StyledSelect from './styled-select';
 import { STORAGE_KEYS, readStoredList, writeStored } from '@/lib/demo-storage';
 
 export default function LeadForm({ type = 'contact' }) {
@@ -54,16 +55,16 @@ export default function LeadForm({ type = 'contact' }) {
         <label className="field"><span>Email</span><input name="email" type="email" placeholder="nombre@email.com" autoComplete="email" /></label>
         {isAppraisal ? (
           <>
-            <label className="field"><span>Tipo de vehículo *</span><select name="category" required defaultValue=""><option value="" disabled>Seleccionar</option><option>Auto</option><option>Camioneta</option><option>Moto</option><option>Utilitario</option></select></label>
+            <label className="field"><span>Tipo de vehículo *</span><StyledSelect name="category" required className="styled-select-field" defaultValue="" placeholder="Seleccionar" options={['Auto', 'Camioneta', 'Moto', 'Utilitario']} /></label>
             <label className="field"><span>Marca *</span><input name="brand" required placeholder="Ej. Ford" /></label>
             <label className="field"><span>Modelo y versión *</span><input name="model" required placeholder="Ej. Focus SE Plus" /></label>
             <label className="field"><span>Año *</span><input name="year" required inputMode="numeric" pattern="[0-9]{4}" placeholder="Ej. 2019" /></label>
             <label className="field"><span>Kilometraje</span><input name="kilometers" inputMode="numeric" placeholder="Ej. 85000" /></label>
-            <label className="field"><span>Estado general</span><select name="condition" defaultValue=""><option value="">Seleccionar</option><option>Excelente</option><option>Muy bueno</option><option>Bueno</option><option>Con detalles</option></select></label>
+            <label className="field"><span>Estado general</span><StyledSelect name="condition" className="styled-select-field" defaultValue="" placeholder="Seleccionar" options={['Excelente', 'Muy bueno', 'Bueno', 'Con detalles']} /></label>
             <label className="field"><span>Precio pretendido (opcional)</span><input name="expectedPrice" placeholder="Ej. USD 15.000" /></label>
           </>
         ) : (
-          <label className="field"><span>Asunto *</span><select name="subject" required defaultValue=""><option value="" disabled>Seleccionar motivo</option><option>Consulta por un vehículo</option><option>Financiación</option><option>Permuta</option><option>Otro</option></select></label>
+          <label className="field"><span>Asunto *</span><StyledSelect name="subject" required className="styled-select-field" defaultValue="" placeholder="Seleccionar motivo" options={['Consulta por un vehículo', 'Financiación', 'Permuta', 'Otro']} /></label>
         )}
         <label className="field field-full"><span>{isAppraisal ? 'Equipamiento, detalles u observaciones' : 'Mensaje'} *</span><textarea name="message" required rows={5} placeholder={isAppraisal ? 'Contanos más sobre el vehículo, su equipamiento y estado...' : 'Escribinos tu consulta...'} /></label>
         {isAppraisal && (
