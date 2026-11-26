@@ -14,7 +14,8 @@ export default function VehicleCard({ vehicle }) {
 
   useEffect(() => {
     let cancelled = false;
-    const candidates = Array.from({ length: 8 }, (_, index) => getVehicleImage(vehicle, index + 1));
+    const imageCount = Math.max(1, Number(vehicle.imageCount) || 8);
+    const candidates = Array.from({ length: imageCount }, (_, index) => getVehicleImage(vehicle, index + 1));
     Promise.all(candidates.map((src) => new Promise((resolve) => {
       const image = new window.Image();
       image.onload = () => resolve(src);

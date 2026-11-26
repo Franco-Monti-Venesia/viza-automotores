@@ -17,7 +17,7 @@ export const siteConfig = {
   mapEmbedUrl: 'https://www.google.com/maps?q=Juan%20Domingo%20Per%C3%B3n%20y%20Ruta%206%2C%20Cruz%20Alta%2C%20C%C3%B3rdoba&output=embed',
   financingMessage:
     'FINANCIAMOS HASTA EL 60% DEL VALOR DEL VEHICULO SOLO CON DNI, CUOTAS FIJAS Y EN PESOS. RECIBIMOS TU USADO. VIZA AUTOMOTORES, CRUZ ALTA, CORDOBA.',
-  logoPath: '/images/brand/logo%20viza%20automotores.png',
+  logoPath: '/images/brand/logo%20viza%20automotores3.png',
   heroImagePath: '/images/brand/viza%20automotores%20fachada.jpg',
 };
 

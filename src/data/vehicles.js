@@ -24,7 +24,7 @@ export const initialVehicles = [
     featured: true,
     status: 'Disponible',
     imageFolder: '/images/vehiculos/fiat-cronos-drive-13-2021',
-    imageCount: 8,
+    imageCount: 7,
     imageExtension: 'jpg',
   },
   {

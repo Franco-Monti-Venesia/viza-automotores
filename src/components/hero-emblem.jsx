@@ -64,7 +64,6 @@ export default function HeroEmblem() {
           <span className="hero-emblem-disc">
             <img src={siteConfig.logoPath} alt="" draggable="false" />
           </span>
-          <span className="hero-emblem-orbit" />
           <span className="hero-emblem-glow" />
         </span>
       </button>

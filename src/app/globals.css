@@ -808,7 +808,6 @@ html { scrollbar-color: #c6c9ce #f1f2f3; scrollbar-width: thin; }
 .hero-emblem-disc { position: relative; z-index: 1; display: grid; place-items: center; width: 86%; height: 86%; padding: 7px; border: 1px solid rgba(255,255,255,.82); border-radius: 50%; background: linear-gradient(145deg,#fff,#e9eaec); box-shadow: 0 25px 70px rgba(0,0,0,.31), inset 0 2px 8px rgba(255,255,255,.95); transform-style: preserve-3d; }
 .hero-emblem-disc::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(214,45,60,.14); border-radius: 50%; transform: translateZ(9px); pointer-events: none; }
 .hero-emblem-disc img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: contain; transform: translateZ(13px); user-select: none; -webkit-user-drag: none; }
-.hero-emblem-orbit { position: absolute; inset: 1%; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; transform: rotateX(66deg) rotateZ(-18deg); box-shadow: 0 0 32px rgba(255,255,255,.1); pointer-events: none; }
 @keyframes viza-emblem-drift {
   0% { transform: translate3d(calc(var(--drag-x) - 10px), calc(var(--drag-y) - 9px), 0) rotateX(calc(var(--tilt-x) + 7deg)) rotateY(calc(var(--tilt-y) - 11deg)); }
   100% { transform: translate3d(calc(var(--drag-x) + 10px), calc(var(--drag-y) + 10px), 0) rotateX(calc(var(--tilt-x) - 7deg)) rotateY(calc(var(--tilt-y) + 11deg)); }
@@ -1144,16 +1143,7 @@ html { scrollbar-color: #c6c9ce #f1f2f3; scrollbar-width: thin; }
   user-select: none;
   -webkit-user-drag: none;
 }
-.hero-emblem-orbit {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border: 2px solid rgba(214, 45, 60, .84);
-  border-radius: 50%;
-  box-shadow: 0 0 34px rgba(214, 45, 60, .24), inset 0 0 18px rgba(214, 45, 60, .12);
-  transform: rotateX(68deg) rotateZ(-18deg) translateZ(7px);
-  pointer-events: none;
-}
+
 .hero-emblem-glow {
   position: absolute;
   inset: 14%;

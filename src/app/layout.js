@@ -15,7 +15,13 @@ export const metadata = {
   },
   description: siteConfig.description,
   applicationName: 'Viza Automotores',
-  icons: { icon: '/icon.ico', shortcut: '/icon.ico', apple: '/apple-touch-icon.png' },
+  // Usamos directamente el PNG circular de alta calidad que ya está en public.
+  // Se elimina la dependencia del icon.ico automático de src/app.
+  icons: {
+    icon: [{ url: '/images/brand/logo%20viza%20automotores3.png', type: 'image/png' }],
+    shortcut: '/images/brand/logo%20viza%20automotores3.png',
+    apple: '/images/brand/logo%20viza%20automotores3.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'es_AR',
